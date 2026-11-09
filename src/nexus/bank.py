@@ -19,3 +19,11 @@ class NexusBank:
         return self.balance
     def get_balance(self):
         return self.balance
+    def transfer(self, amount: int, to_bank):
+        if amount <= 0:
+            raise BankError("Amount must be positive")
+        if amount > self.balance:
+            raise BankError("Insufficient funds")
+        self.balance -= amount
+        to_bank.balance += amount
+        return self.balance
