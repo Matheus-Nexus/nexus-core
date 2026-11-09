@@ -12,3 +12,8 @@ def test_withdraw_insufficient():
         assert False
     except BankError:
         assert True
+def test_get_balance():
+    bank = NexusBank()
+    bank.deposit(100)
+    bank.withdraw(30)
+    assert bank.get_balance() == 70
