@@ -23,3 +23,10 @@ def test_get_balance_does_not_change_balance():
     bank.get_balance()
     bank.get_balance()
     assert bank.get_balance() == 100
+def test_transfer():
+    bank_a = NexusBank()
+    bank_b = NexusBank()
+    bank_a.deposit(100)
+    bank_a.transfer(30, bank_b)
+    assert bank_a.get_balance() == 70
+    assert bank_b.get_balance() == 30
