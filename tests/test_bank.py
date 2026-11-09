@@ -39,3 +39,11 @@ def test_transfer_insufficient_funds():
         bank_a.transfer(200, bank_b)
     assert bank_a.get_balance() == 100
     assert bank_b.get_balance() == 0
+def test_transfer_negative_amount():
+    bank_a = NexusBank()
+    bank_b = NexusBank()
+    bank_a.deposit(100)
+    with pytest.raises(BankError):
+        bank_a.transfer(-50, bank_b)
+    assert bank_a.get_balance() == 100
+    assert bank_b.get_balance() == 0
