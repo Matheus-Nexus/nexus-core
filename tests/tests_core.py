@@ -5,6 +5,11 @@ def test_core_routes_to_cassius():
     result = core.run("calcular ROI")
     assert result == "CASSIUS calculou: calcular ROI"
 
+def test_core_routes_to_mercury():
+    core = NexusCore()
+    result = core.run("executar pagamento")
+    assert result == "MERCURY executou: executar pagamento"
+
 def test_core_routes_to_plutarch():
     core = NexusCore()
     result = core.run("analisar saldo")
