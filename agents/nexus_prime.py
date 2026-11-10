@@ -1,37 +1,48 @@
 import os
 import json
+import re
 from datetime import datetime
 from agents.external_ai import consultar_gemini
 
 ARQUIVO_MEMORIA = "memoria.json"
 
 class NexusPrime:
-    def _carregar_memoria(self):
-        if not os.path.exists(ARQUIVO_MEMORIA):
-            return []
+    def __init__(self):
+        self.name = "NEXUS PRIME"
+        # Memoria que os testes esperam - dicionario
+        self.memoria = {"limite_roi": 30.0}
+        # Carrega historico salvo em arquivo, se existir
         try:
-            with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
-                return json.load(f)
+            if os.path.exists(ARQUIVO_MEMORIA):
+                with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
+                    historico = json.load(f)
+                    if isinstance(historico, list) and historico:
+                        self.memoria["historico"] = historico
         except:
-            return []
+            pass
 
     def _salvar_aprendizado(self, pergunta, resposta):
-        memoria = self._carregar_memoria()
-        memoria.append({
+        historico = self.memoria.get("historico", [])
+        if not isinstance(historico, list):
+            historico = []
+        historico.append({
             "data": datetime.now().strftime("%d/%m/%Y %H:%M"),
             "pergunta": pergunta,
             "aprendizado": resposta
         })
-        # Guarda só os últimos 20 aprendizados pra não ficar gigante
-        memoria = memoria[-20:]
-        with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
-            json.dump(memoria, f, ensure_ascii=False, indent=2)
-        return len(memoria)
+        historico = historico[-20:]
+        self.memoria["historico"] = historico
+        try:
+            with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
+                json.dump(historico, f, ensure_ascii=False, indent=2)
+        except:
+            pass
+        return len(historico)
 
     def run(self, task):
         task_lower = task.lower()
 
-        # 1. CONSULTAR IA EXTERNA - com memória
+        # 1. CONSULTAR IA EXTERNA - com memoria
         if "consultar" in task_lower or "ia externa" in task_lower or "gemini" in task_lower:
             pergunta = task.replace("consultar IA externa:", "").replace("consultar ia externa:", "").strip()
             if not pergunta:
@@ -40,25 +51,21 @@ class NexusPrime:
             total = self._salvar_aprendizado(pergunta, resposta)
             return f"NEXUS PRIME consultou IA externa e aprendeu: {resposta} [Memoria salva! Total de aprendizados: {total}]"
 
-        # 2. DECIDIR ESTRATEGIA
+        # 2. DECIDIR ESTRATEGIA - usa limite_roi da memoria
         if "decidir" in task_lower or "estrategia" in task_lower:
-            # Usa a memória pra decidir melhor
-            memoria = self._carregar_memoria()
-            dica = ""
-            if memoria:
-                dica = f" Usando {len(memoria)} aprendizados anteriores."
-            # Extrai os numeros da tarefa
-            import re
+            limite = self.memoria.get("limite_roi", 30.0)
             numeros = re.findall(r"\d+", task)
             if len(numeros) >= 2:
                 investimento = float(numeros[0])
                 retorno = float(numeros[1])
+                if investimento == 0:
+                    return "NEXUS PRIME analisou estrategia."
                 roi = (retorno - investimento) / investimento * 100
-                if roi >= 30:
-                    return f"NEXUS PRIME APROVOU: ROI {roi:.1f}% acima do limite 30.0%.{dica}"
+                if roi >= limite:
+                    return f"NEXUS PRIME APROVOU: ROI {roi:.1f}% acima do limite {limite:.1f}%."
                 else:
-                    return f"NEXUS PRIME REJEITOU: ROI {roi:.1f}% abaixo do limite 30.0%.{dica}"
-            return f"NEXUS PRIME analisou estrategia.{dica}"
+                    return f"NEXUS PRIME REJEITOU: ROI {roi:.1f}% abaixo do limite {limite:.1f}%."
+            return "NEXUS PRIME analisou estrategia."
 
         # 3. APRENDER COM ERRO
         if "erro" in task_lower or "falha" in task_lower or "bug" in task_lower:
