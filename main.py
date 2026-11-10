@@ -10,7 +10,7 @@ def main():
         "analisar saldo",
         "corrigir bug no codigo",
         "criar funcao de login",
-        "prever preco do token",
+        "prever preco token atual 2.0 crescimento 10",
     ]
     print("=== NEXUS CORE INICIADO ===")
     for tarefa in tarefas:
