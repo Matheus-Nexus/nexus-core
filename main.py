@@ -7,7 +7,7 @@ def main():
         "calcular ROI investimento 1000 retorno 1500",
         "calcular ROI investimento 2000 retorno 2600",
         "executar pagamento valor 1000 taxa 2",
-        "analisar saldo",
+        "analisar saldo inicial 5000 gasto 1200",
         "contar palavras ola mundo nexus",
         "criar funcao de login",
         "prever preco token atual 2.0 crescimento 10",
