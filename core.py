@@ -31,7 +31,7 @@ class NexusCore:
             return "Financeira - PLUTARCH"
         if "criar" in task_lower or "construir" in task_lower or "implementar" in task_lower or "funcao" in task_lower:
             return "Operacoes - LIDER"
-        if "codigo" in task_lower or "bug" in task_lower or "seguranca" in task_lower or "documentacao" in task_lower:
+        if "codigo" in task_lower or "bug" in task_lower or "contar" in task_lower or "palavras" in task_lower:
             return "Operacoes - HERMES"
         return "Financeira - PLUTARCH"
 
