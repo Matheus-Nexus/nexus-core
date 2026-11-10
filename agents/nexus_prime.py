@@ -28,6 +28,11 @@ class NexusPrime(Agent):
 
     def run(self, task):
         task_lower = task.lower()
+                if "consultar ia" in task_lower or "perguntar ia" in task_lower or "melhorar" in task_lower:
+            resposta = consultar_gemini(task)
+            self.memoria["erros_aprendidos"].append(f"Aprendeu com IA externa: {resposta[:100]}")
+            self.salvar_memoria()
+            return f"NEXUS PRIME consultou IA externa e aprendeu: {resposta}"
 
         # ELE APRENDE COM ROI
         if "roi" in task_lower or "estrategia" in task_lower or "decidir" in task_lower:
