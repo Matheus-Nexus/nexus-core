@@ -10,7 +10,7 @@ jobs:
           python-version: '3.12'
       - run: pip install pytest
       - run: PYTHONPATH=. pytest -v
-           - name: Run PYTHONPATH=. python main.py
+      - name: Run main
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: PYTHONPATH=. python main.py
