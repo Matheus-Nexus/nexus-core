@@ -19,3 +19,8 @@ def test_core_routes_to_hermes():
     core = NexusCore()
     result = core.run("corrigir bug no codigo")
     assert result == "HERMES coordenou operacao: corrigir bug no codigo"
+
+def test_core_routes_to_lider():
+    core = NexusCore()
+    result = core.run("criar funcao de login")
+    assert result == "LIDER construiu: criar funcao de login"
