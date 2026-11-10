@@ -24,3 +24,8 @@ def test_core_routes_to_lider():
     core = NexusCore()
     result = core.run("criar funcao de login")
     assert result == "LIDER construiu: criar funcao de login"
+
+def test_core_routes_to_oraculo():
+    core = NexusCore()
+    result = core.run("prever preco do token")
+    assert result == "ORACULO previu: prever preco do token"
