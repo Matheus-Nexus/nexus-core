@@ -4,6 +4,7 @@ from agents.mercury import Mercury
 from agents.hermes import Hermes
 from agents.lider import Lider
 from agents.oraculo import Oraculo
+from agents.nexus_prime import NexusPrime
 
 class NexusCore:
     def __init__(self):
@@ -14,9 +15,12 @@ class NexusCore:
         self.hermes = Hermes()
         self.lider = Lider()
         self.oraculo = Oraculo()
+        self.prime = NexusPrime()
 
     def route(self, task):
         task_lower = task.lower()
+        if "estrategia" in task_lower or "decidir" in task_lower or "visao" in task_lower or "prioridade" in task_lower:
+            return "Direcao - NEXUS PRIME"
         if "prever" in task_lower or "previsao" in task_lower or "tendencia" in task_lower or "futuro" in task_lower:
             return "Inteligencia - ORACULO"
         if "roi" in task_lower or "calcular" in task_lower or "fluxo" in task_lower or "cenario" in task_lower:
@@ -45,4 +49,6 @@ class NexusCore:
             return self.lider.run(task)
         if destino == "Inteligencia - ORACULO":
             return self.oraculo.run(task)
+        if destino == "Direcao - NEXUS PRIME":
+            return self.prime.run(task)
         return f"CORE roteou '{task}' para {destino} - agente ainda nao criado"
