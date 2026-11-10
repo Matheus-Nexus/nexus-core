@@ -4,7 +4,8 @@ def main():
     core = NexusCore()
     tarefas = [
         "decidir estrategia geral",
-        "calcular ROI",
+        "calcular ROI investimento 1000 retorno 1500",
+        "calcular ROI investimento 2000 retorno 2600",
         "executar pagamento",
         "analisar saldo",
         "corrigir bug no codigo",
