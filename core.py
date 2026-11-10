@@ -1,6 +1,7 @@
 from agents.plutarch import Plutarch
 from agents.cassius import Cassius
 from agents.mercury import Mercury
+from agents.hermes import Hermes
 
 class NexusCore:
     def __init__(self):
@@ -8,6 +9,7 @@ class NexusCore:
         self.plutarch = Plutarch()
         self.cassius = Cassius()
         self.mercury = Mercury()
+        self.hermes = Hermes()
 
     def route(self, task):
         task_lower = task.lower()
@@ -29,4 +31,6 @@ class NexusCore:
             return self.mercury.run(task)
         if destino == "Financeira - PLUTARCH":
             return self.plutarch.run(task)
+        if destino == "Operacoes - HERMES":
+            return self.hermes.run(task)
         return f"CORE roteou '{task}' para {destino} - agente ainda nao criado"
