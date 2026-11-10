@@ -6,7 +6,7 @@ from agents.external_ai import consultar_gemini
 
 class NexusPrime(Agent):
     def __init__(self):
-        super().__init__("NEXUS PRIME", "Estrategia", "Orquestrador")
+        super().__init__("NEXUS PRIME", "Estrategia", "Decisor")
         self.arquivo_memoria = "nexus_memoria.json"
         self.memoria = self._carregar_memoria()
 
