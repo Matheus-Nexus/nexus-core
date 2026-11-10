@@ -1,6 +1,11 @@
 from core import NexusCore
 
-def test_core_routes_finance_to_plutarch():
+def test_core_routes_to_cassius():
+    core = NexusCore()
+    result = core.run("calcular ROI")
+    assert result == "CASSIUS calculou: calcular ROI"
+
+def test_core_routes_to_plutarch():
     core = NexusCore()
     result = core.run("analisar saldo")
     assert result == "PLUTARCH aprovou e coordenou: analisar saldo"
