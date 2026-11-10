@@ -3,7 +3,9 @@ from core import NexusCore
 def main():
     core = NexusCore()
     tarefas = [
-        "decidir estrategia geral",
+        "decidir estrategia ROI investimento 1000 retorno 1500",
+"decidir estrategia ROI investimento 1000 retorno 1100",
+"erro sistema caiu",
         "calcular ROI investimento 1000 retorno 1500",
         "calcular ROI investimento 2000 retorno 2600",
         "executar pagamento valor 1000 taxa 2",
