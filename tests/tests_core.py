@@ -15,7 +15,7 @@ def test_core_routes_to_plutarch():
     result = core.run("analisar saldo")
     assert result == "PLUTARCH aprovou e coordenou: analisar saldo"
 
-def test_core_routes_operations():
+def test_core_routes_to_hermes():
     core = NexusCore()
     result = core.run("corrigir bug no codigo")
-    assert result == "CORE roteou 'corrigir bug no codigo' para Operacoes - HERMES - agente ainda nao criado"
+    assert result == "HERMES coordenou operacao: corrigir bug no codigo"
