@@ -19,8 +19,8 @@ class NexusCore:
 
     def route(self, task):
         task_lower = task.lower()
-        if "estrategia" in task_lower or "decidir" in task_lower or "visao" in task_lower or "prioridade" in task_lower:
-            return "Direcao - NEXUS PRIME"
+        if "decidir" in task_lower or "estrategia" in task_lower or "erro" in task_lower or "falha" in task_lower or "bug" in task_lower or "aprendeu" in task_lower:
+    return "Estrategia - NEXUS PRIME"
         if "prever" in task_lower or "previsao" in task_lower or "tendencia" in task_lower or "futuro" in task_lower:
             return "Inteligencia - ORACULO"
         if "roi" in task_lower or "calcular" in task_lower or "fluxo" in task_lower or "cenario" in task_lower:
