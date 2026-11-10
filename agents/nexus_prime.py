@@ -2,6 +2,7 @@ import re
 import json
 import os
 from agent import Agent
+from agents.external_ai import consultar_gemini
 
 class NexusPrime(Agent):
     def __init__(self):
