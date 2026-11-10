@@ -10,6 +10,7 @@ class NexusPrime:
     def __init__(self):
         self.name = "NEXUS PRIME"
         self.division = "Estrategia"
+        self.role = "Decisor"
         self.memoria = {"limite_roi": 30.0}
         # Carrega historico salvo em arquivo, se existir
         try:
