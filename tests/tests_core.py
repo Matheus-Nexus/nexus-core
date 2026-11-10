@@ -29,3 +29,8 @@ def test_core_routes_to_oraculo():
     core = NexusCore()
     result = core.run("prever preco do token")
     assert result == "ORACULO previu: prever preco do token"
+
+def test_core_routes_to_prime():
+    core = NexusCore()
+    result = core.run("decidir estrategia geral")
+    assert result == "NEXUS PRIME decidiu: decidir estrategia geral"
