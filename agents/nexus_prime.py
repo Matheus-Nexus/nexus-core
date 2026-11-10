@@ -9,7 +9,7 @@ ARQUIVO_MEMORIA = "memoria.json"
 class NexusPrime:
     def __init__(self):
         self.name = "NEXUS PRIME"
-        # Memoria que os testes esperam - dicionario
+        self.division = "Estrategia"
         self.memoria = {"limite_roi": 30.0}
         # Carrega historico salvo em arquivo, se existir
         try:
