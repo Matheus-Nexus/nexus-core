@@ -1,70 +1,68 @@
-import re
-import json
 import os
-from agent import Agent
+import json
+from datetime import datetime
 from agents.external_ai import consultar_gemini
 
-class NexusPrime(Agent):
-    def __init__(self):
-        super().__init__("NEXUS PRIME", "Estrategia", "Decisor")
-        self.arquivo_memoria = "nexus_memoria.json"
-        self.memoria = self._carregar_memoria()
+ARQUIVO_MEMORIA = "memoria.json"
 
+class NexusPrime:
     def _carregar_memoria(self):
-        if os.path.exists(self.arquivo_memoria):
-            try:
-                with open(self.arquivo_memoria, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    if "erros_aprendidos" not in data:
-                        data["erros_aprendidos"] = []
-                    if "vitorias" not in data:
-                        data["vitorias"] = []
-                    if "limite_roi" not in data:
-                        data["limite_roi"] = 30.0
-                    return data
-            except Exception:
-                pass
-        return {"erros_aprendidos": [], "vitorias": [], "limite_roi": 30.0}
-
-    def salvar_memoria(self):
+        if not os.path.exists(ARQUIVO_MEMORIA):
+            return []
         try:
-            with open(self.arquivo_memoria, "w", encoding="utf-8") as f:
-                json.dump(self.memoria, f, ensure_ascii=False, indent=2)
-        except Exception:
-            pass
+            with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            return []
+
+    def _salvar_aprendizado(self, pergunta, resposta):
+        memoria = self._carregar_memoria()
+        memoria.append({
+            "data": datetime.now().strftime("%d/%m/%Y %H:%M"),
+            "pergunta": pergunta,
+            "aprendizado": resposta
+        })
+        # Guarda só os últimos 20 aprendizados pra não ficar gigante
+        memoria = memoria[-20:]
+        with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as f:
+            json.dump(memoria, f, ensure_ascii=False, indent=2)
+        return len(memoria)
 
     def run(self, task):
         task_lower = task.lower()
-        if "consultar ia" in task_lower or "perguntar ia" in task_lower or "melhorar" in task_lower:
-            resposta = consultar_gemini(task)
-            self.memoria["erros_aprendidos"].append(f"Aprendeu com IA externa: {resposta[:100]}")
-            self.salvar_memoria()
-            return f"NEXUS PRIME consultou IA externa e aprendeu: {resposta}"
-        if "erro" in task_lower or "falha" in task_lower or "fracasso" in task_lower:
-            self.memoria["erros_aprendidos"].append(task)
-            self.salvar_memoria()
-            return f"NEXUS PRIME aprendeu com erro: {task}"
-        if "roi" in task_lower or "investimento" in task_lower:
-            numeros = re.findall(r"\d+(?:\.\d+)?", task_lower)
+
+        # 1. CONSULTAR IA EXTERNA - com memória
+        if "consultar" in task_lower or "ia externa" in task_lower or "gemini" in task_lower:
+            pergunta = task.replace("consultar IA externa:", "").replace("consultar ia externa:", "").strip()
+            if not pergunta:
+                pergunta = task
+            resposta = consultar_gemini(pergunta)
+            total = self._salvar_aprendizado(pergunta, resposta)
+            return f"NEXUS PRIME consultou IA externa e aprendeu: {resposta} [Memoria salva! Total de aprendizados: {total}]"
+
+        # 2. DECIDIR ESTRATEGIA
+        if "decidir" in task_lower or "estrategia" in task_lower:
+            # Usa a memória pra decidir melhor
+            memoria = self._carregar_memoria()
+            dica = ""
+            if memoria:
+                dica = f" Usando {len(memoria)} aprendizados anteriores."
+            # Extrai os numeros da tarefa
+            import re
+            numeros = re.findall(r"\d+", task)
             if len(numeros) >= 2:
                 investimento = float(numeros[0])
                 retorno = float(numeros[1])
-                roi = ((retorno - investimento) / investimento * 100) if investimento != 0 else 0
-            elif len(numeros) == 1:
-                roi = float(numeros[0])
-            else:
-                roi = 0
-            limite = self.memoria.get("limite_roi", 30.0)
-            if roi >= limite:
-                self.memoria["vitorias"].append(task)
-                self.salvar_memoria()
-                return f"NEXUS PRIME APROVOU: ROI {roi:.1f}% acima do limite {limite}%."
-            else:
-                self.memoria["erros_aprendidos"].append(task)
-                self.salvar_memoria()
-                return f"NEXUS PRIME REJEITOU: ROI {roi:.1f}% abaixo do limite {limite}%."
-        if "funil" in task_lower:
-            return "NEXUS PRIME: Funil criado: Atracao > Captura > Venda > Pos-venda."
-        if "buscar" in task_lower or "dados" in task_lower:
-            return "NEXUS PRIME: Dados buscados e analisados."
-        return f"NEXUS PRIME executou: {task}"
+                roi = (retorno - investimento) / investimento * 100
+                if roi >= 30:
+                    return f"NEXUS PRIME APROVOU: ROI {roi:.1f}% acima do limite 30.0%.{dica}"
+                else:
+                    return f"NEXUS PRIME REJEITOU: ROI {roi:.1f}% abaixo do limite 30.0%.{dica}"
+            return f"NEXUS PRIME analisou estrategia.{dica}"
+
+        # 3. APRENDER COM ERRO
+        if "erro" in task_lower or "falha" in task_lower or "bug" in task_lower:
+            total = self._salvar_aprendizado(task, f"Erro registrado: {task}")
+            return f"NEXUS PRIME aprendeu com erro: {task} [Memoria salva! Total: {total}]"
+
+        return "NEXUS PRIME analisou a tarefa."
