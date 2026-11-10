@@ -23,4 +23,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-"consultar IA externa: como melhorar meu ROI?",
+"consultar IA externa: como melhorar meus lucros?",
