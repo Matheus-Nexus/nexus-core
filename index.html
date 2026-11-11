@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS - O dinheiro que nasce do seu celular</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+body{background:#050810;color:white;text-align:center}
+.hero{padding:60px 20px;background:linear-gradient(180deg,#0a0f2e,#050810)}
+.hero h1{font-size:52px;margin-bottom:10px}
+.hero p{font-size:20px;color:#aaa;margin-bottom:25px}
+.btn{display:inline-block;background:#2b6cff;color:white;padding:15px 30px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:18px;margin:5px}
+.btn2{background:#1a1f3a;border:1px solid #333}
+.card{background:#0f1533;margin:15px;padding:25px;border-radius:20px;text-align:left;max-width:500px;margin-left:auto;margin-right:auto}
+.card h3{font-size:22px;margin-bottom:8px}
+.card p{color:#bbb;line-height:1.5}
+.saldo{background:#111a3d;padding:30px;border-radius:20px;max-width:500px;margin:20px auto}
+.saldo b{font-size:42px}
+.price{color:#2ecc71;font-size:22px}
+footer{padding:30px;color:#666;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div style="font-size:60px">🔷</div>
+  <h1>NEXUS</h1>
+  <p>O dinheiro que nasce do seu celular.</p>
+  <p style="font-size:16px">Nó Gênesis #001 - Santo André, SP - Fundado 10/11/2026</p>
+  <a class="btn" href="#carteira">⛏️ Começar a Minerar</a>
+  <a class="btn btn2" href="#market">🛒 Ver Marketplace</a>
+</div>
+
+<div class="saldo" id="carteira">
+  <p>SUA CARTEIRA DEMO</p>
+  <b id="saldo">1000 NEX</b>
+  <p class="price">= R$ 100,00</p>
+  <br>
+  <button class="btn" onclick="minerar()">⛏️ Minerar +10 NEX</button>
+  <p id="msg" style="margin-top:10px;color:#2ecc71"></p>
+</div>
+
+<div class="card">
+  <h3>⛏️ Mineração sem energia</h3>
+  <p>Sem gastar luz. Sem gastar bateria. Você minera só por estar conectado. A Prova de Participação muda tudo.</p>
+</div>
+
+<div class="card">
+  <h3>💸 NEX Pay Offline</h3>
+  <p>Pague até 200 NEX sem internet, com QR Code. Perfeito para feira, padaria e ônibus em Santo André.</p>
+</div>
+
+<div class="card" id="market">
+  <h3>🛒 Marketplace NEXUS</h3>
+  <p>🍞 Pão de Queijo (6 un) - <b>15 NEX</b> - João Padaria<br>
+  ☕ Café + Bolo - <b>25 NEX</b> - João Padaria<br>
+  👕 Camiseta Vintage - <b>80 NEX</b> - Maria Brechó</p>
+  <br>
+  <button class="btn" onclick="comprar()">Comprar Pão de Queijo por 15 NEX</button>
+</div>
+
+<div class="card">
+  <h3>👑 6 Arcontes</h3>
+  <p>Arquitetura, Economia, Segurança, Rede, Lei e Comunidade. O NEXUS não é uma moeda, é um ecossistema governado.</p>
+</div>
+
+<footer>
+  NEXUS ECOSYSTEM v2.3 - Feito em Santo André, SP<br>
+  <a href="https://github.com/Matheus-Nexus/nexus-core" style="color:#2b6cff">Ver código no GitHub</a>
+</footer>
+
+<script>
+let saldo = 1000;
+function minerar(){
+  saldo += 10;
+  document.getElementById('saldo').innerText = saldo + ' NEX';
+  document.getElementById('msg').innerText = '+10 NEX minerados! Continue!';
+}
+function comprar(){
+  if(saldo >= 15){
+    saldo -= 15;
+    document.getElementById('saldo').innerText = saldo + ' NEX';
+    alert('Compra feita! Você comprou Pão de Queijo por 15 NEX 🍞');
+  } else {
+    alert('Saldo insuficiente, mine mais!');
+  }
+}
+</script>
+</body>
+</html>
